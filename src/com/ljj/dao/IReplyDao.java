@@ -17,4 +17,6 @@ public interface IReplyDao {
     public boolean delete(int replyId, int postId, int userId, boolean isAdmin);
 
     boolean getPostById(Reply post);
+
+    int getUserId(int id);
 }

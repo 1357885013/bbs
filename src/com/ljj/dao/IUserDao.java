@@ -4,6 +4,7 @@ import com.ljj.entity.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface IUserDao {
     /**
@@ -23,10 +24,15 @@ public interface IUserDao {
 
     public boolean hasUser(String name, Connection con);
 
-    public boolean ban(String time);
+    public boolean ban(int id);
 
-    public boolean delete();
+    boolean delete(int userId);
 
     boolean update(User user);
 
+    ArrayList<String[]> getActivate();
+
+    ArrayList<User> getAll();
+
+    boolean set(int id);
 }

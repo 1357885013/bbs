@@ -5,11 +5,17 @@ public interface IUserService {
 
     public boolean login();
 
-    public boolean ban();
+    public void ban();
 
     public boolean getAuthority();
 
-    public boolean delete();
+    public void delete();
 
     boolean update();
+
+    void getActivate();
+
+    void list();
+
+    void set();
 }

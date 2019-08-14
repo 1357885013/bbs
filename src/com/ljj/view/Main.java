@@ -21,7 +21,45 @@ public class Main {
         priMainMenu();
 
         while (scan.hasNext()) {
-            if (screen == 4) {    //在某一个帖子里    Reply
+            if (screen == 5) {    //管理用户
+                switch (scan.next()) {
+                    case "l":
+                    case "list":
+                        user.list();
+                        break;
+                    case "a":
+                    case "add":
+                        user.register();
+                        break;
+                    case "ban":
+                        user.ban();
+                        break;
+                    case "s":
+                    case "set":
+                        user.set();
+                        break;
+                    case "d":
+                    case "del":
+                    case "delete":
+                        user.delete();
+                        break;
+                    case "m":
+                    case "menu":
+                    case "h":
+                    case "help":
+                        priUserMenu();
+                        break;
+                    case "re":
+                    case "return":
+                    case "b":
+                    case "back":
+                        screen = 1;
+                        priBlockMenu();
+                        break;
+                    default:
+                        System.out.println("未知命令，如需帮助请输h 或 help，m 或 menu 也行。。。");
+                }
+            } else if (screen == 4) {    //在某一个帖子里    Reply
                 switch (scan.next()) {
                     case "l":
                     case "list":
@@ -84,7 +122,7 @@ public class Main {
                     case "d":
                     case "del":
                     case "delete":
-                        post.delete();
+                        post.delete(user.user.getId(), user.user.flag);
                         break;
                     case "m":
                     case "menu":
@@ -115,6 +153,18 @@ public class Main {
                             screen++;
                             //priPostMenu();
                             post.listAll();
+                        }
+                        break;
+                    case "la":
+                    case "listActivate":
+                        user.getActivate();
+                        break;
+                    case "u":
+                    case "um":
+                    case "usermanager":
+                        if (user.user.flag) {
+                            screen = 5;
+                            user.list();
                         }
                         break;
                     case "c":
@@ -194,9 +244,11 @@ public class Main {
         System.out.println("??????????????????????????????????????????");
         System.out.println("l|list : 显示所有版块");
         System.out.println("i|in|into : 进入版块");
+        System.out.println("la||listActitve : 显示活跃用户");
         if (user.getAuthority()) {
             System.out.println("c|create : 创建版块");
             System.out.println("d|del|delete : 删除版块");
+            System.out.println("d|del|delete : 管理用户");
         }
         System.out.println("h|help|m|menu : 显示功能");
         System.out.println("q|quit : 退出");
@@ -225,6 +277,20 @@ public class Main {
 
         System.out.println("h|help|m|menu : 显示功能");
         System.out.println("re|return|b|back : 返回");
+        System.out.println("??????????????????????????????????????????");
+    }
+
+    private static void priUserMenu() {
+        System.out.println("??????????????????????????????????????????");
+        System.out.println("l|list : 显示所有用户");
+        System.out.println("a|add : 添加用户");
+        System.out.println("d|del|delete : 删除用户");
+        System.out.println("ban : 禁用/启用用户");
+        System.out.println("s|set : 设为管理员/用户");
+
+
+        System.out.println("h|help|m|menu : 显示功能");
+        System.out.println("r|return|b|back : 返回");
         System.out.println("??????????????????????????????????????????");
     }
 }

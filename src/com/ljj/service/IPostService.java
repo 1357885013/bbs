@@ -5,7 +5,7 @@ public interface IPostService {
 
     public void create(int userId,int blockId);
 
-    public void delete();
+    public void delete(int userId, boolean state);
 
     boolean into();
 

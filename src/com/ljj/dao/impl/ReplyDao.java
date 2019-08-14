@@ -84,16 +84,16 @@ public class ReplyDao implements IReplyDao {
         Connection con = Factory.getCon();
         PreparedStatement state = null;
         try {
-            if(isAdmin){
+//            if (isAdmin) {
                 state = con.prepareStatement("delete from reply where pId=? and rId=?");
                 state.setInt(1, postId);
                 state.setInt(2, replyId);
-            }else{
-                state = con.prepareStatement("delete from reply where pId=? and rId=? and uId=?");
-                state.setInt(1, postId);
-                state.setInt(2, replyId);
-                state.setInt(3, userId);
-            }
+//            } else {
+//                state = con.prepareStatement("delete from reply where pId=? and rId=? and uId=?");
+//                state.setInt(1, postId);
+//                state.setInt(2, replyId);
+//                state.setInt(3, userId);
+//            }
 
             int res = state.executeUpdate();
             return res > 0;
@@ -112,5 +112,26 @@ public class ReplyDao implements IReplyDao {
         return false;
     }
 
+    @Override
+    public int getUserId(int id) {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        ResultSet res = null;
+        try {
+            state = con.prepareStatement("select uId from reply where rId=?");
+            state.setInt(1, id);
+            res = state.executeQuery();
+            if (res.next()) {
+                return res.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(res, state, con);
+        }
+        return -1;
+    }
 
 }

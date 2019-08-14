@@ -54,10 +54,17 @@ public class ReplyService implements IReplyService {
     }
 
     @Override
-    public void delete(int postId, int id, boolean state) {
+    public void delete(int postId, int userId, boolean state) {
         System.out.println("请输入 id");
-        if(scan.hasNextInt()){
-            if(dao.delete(scan.nextInt(),postId,id,state))
+        if (scan.hasNextInt()) {
+            int id = scan.nextInt();
+            if (!state) {
+                if (userId != dao.getUserId(id)) {
+                    System.out.println("失败，权限不足，你只能删除自己的内容");
+                    return;
+                }
+            }
+            if (dao.delete(id, postId, userId, state))
                 System.out.println("删除成功");
             else
                 System.out.println("删除失败，不存在此id或其它原因");

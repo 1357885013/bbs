@@ -11,7 +11,7 @@
  Target Server Version : 50621
  File Encoding         : 65001
 
- Date: 09/08/2019 17:22:37
+ Date: 12/08/2019 09:49:28
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `block`  (
   `bName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`bId`) USING BTREE,
   UNIQUE INDEX `bName`(`bName`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of block
@@ -51,12 +51,14 @@ CREATE TABLE `post`  (
   INDEX `bId`(`bId`) USING BTREE,
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`uId`) REFERENCES `user` (`uId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`bId`) REFERENCES `block` (`bId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of post
 -- ----------------------------
 INSERT INTO `post` VALUES (9, ' 伊朗局势紧张', '今日伊朗击落一架美无人机', '2019-08-09 16:04:32', 1, 9);
+INSERT INTO `post` VALUES (16, ' jlkl', 'jllk', '2019-08-12 09:46:53', 1, 9);
+INSERT INTO `post` VALUES (17, ' jjjj', 'kkkkkk', '2019-08-12 09:47:02', 1, 9);
 
 -- ----------------------------
 -- Table structure for reply
@@ -73,7 +75,7 @@ CREATE TABLE `reply`  (
   INDEX `pId`(`pId`) USING BTREE,
   CONSTRAINT `reply_ibfk_1` FOREIGN KEY (`uId`) REFERENCES `user` (`uId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reply_ibfk_2` FOREIGN KEY (`pId`) REFERENCES `post` (`pId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of reply
@@ -84,6 +86,8 @@ INSERT INTO `reply` VALUES (19, ' time1', '2019-08-09 17:14:22', 1, 9);
 INSERT INTO `reply` VALUES (20, ' time 2', '2017-10-01 17:14:26', 1, 9);
 INSERT INTO `reply` VALUES (21, ' time 3\\', '2019-06-01 17:14:30', 1, 9);
 INSERT INTO `reply` VALUES (22, ' time 4', '2019-08-06 17:14:34', 1, 9);
+INSERT INTO `reply` VALUES (25, ' jl;j;', '2019-08-12 09:37:33', 1, 9);
+INSERT INTO `reply` VALUES (26, ' jllljl', '2019-08-12 09:37:47', 1, 9);
 
 -- ----------------------------
 -- Table structure for user
@@ -97,16 +101,12 @@ CREATE TABLE `user`  (
   `flag` binary(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`uId`) USING BTREE,
   UNIQUE INDEX `uName`(`uName`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'liu', '123', 0x30, 0x31);
-INSERT INTO `user` VALUES (2, 'liujijiang', '123', 0x30, 0x31);
-INSERT INTO `user` VALUES (3, 'asd', '123', 0x30, 0x31);
-INSERT INTO `user` VALUES (4, '123', 'fda', 0x30, 0x31);
-INSERT INTO `user` VALUES (5, 'fds', 'fds', 0x30, 0x31);
-INSERT INTO `user` VALUES (6, 'fd', 'fds', 0x30, 0x31);
+INSERT INTO `user` VALUES (8, 'jk', 'jk', 0x30, 0x30);
 
 SET FOREIGN_KEY_CHECKS = 1;

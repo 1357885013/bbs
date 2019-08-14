@@ -10,7 +10,14 @@ public class User {
     public User() {
         this.id=-1;
         this.state = false;
-        this.flag = true;
+        this.flag = false;
+    }
+
+    public User( int id, String name,boolean state, boolean flag) {
+        this.state = state;
+        this.flag = flag;
+        this.id = id;
+        this.name = name;
     }
 
     public User(String name, String password, boolean state, boolean flag) {
@@ -44,4 +51,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

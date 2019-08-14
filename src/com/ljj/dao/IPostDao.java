@@ -17,4 +17,6 @@ public interface IPostDao {
     public boolean delete(int id);
 
     boolean getPostById(Post post);
+
+    int getUserId(int id);
 }

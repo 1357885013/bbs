@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserDao implements IUserDao {
 
@@ -97,12 +98,45 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public boolean ban(String time) {
+    public boolean ban(int id) {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        try {
+            state = con.prepareStatement("UPDATE USER \n" +
+                    "\tSET state = state^1 \n" +
+                    "WHERE\n" +
+                    "\tuid =?");
+            state.setInt(1, id);
+
+            return (state.executeUpdate() >= 1);
+
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(null, state, con);
+        }
         return false;
     }
 
     @Override
-    public boolean delete() {
+    public boolean delete(int userId) {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        try {
+            state = con.prepareStatement("delete from user where uId=?");
+            state.setInt(1, userId);
+
+            return (state.executeUpdate() >= 1);
+
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(null, state, con);
+        }
         return false;
     }
 
@@ -118,6 +152,92 @@ public class UserDao implements IUserDao {
             state.setString(2, user.getPassword());
             state.setBoolean(3, user.state);
             state.setBoolean(4, user.flag);
+
+            return (state.executeUpdate() >= 1);
+
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(null, state, con);
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<String[]> getActivate() {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        ResultSet res = null;
+        ArrayList<String[]> names = new ArrayList<>();
+        try {
+            state = con.prepareStatement("SELECT\n" +
+                    "\tuName,\n" +
+                    "\tsum( num ) num \n" +
+                    "FROM\n" +
+                    "\t(\n" +
+                    "\t( SELECT uId, count( * ) num FROM post GROUP BY uId ) UNION ALL\n" +
+                    "\t( SELECT uId, count( * ) num FROM reply GROUP BY uId ) \n" +
+                    "\t) a\n" +
+                    "\tJOIN USER USING ( uId ) \n" +
+                    "GROUP BY\n" +
+                    "\tuId \n" +
+                    "ORDER BY\n" +
+                    "\tnum DESC;");
+            res = state.executeQuery();
+
+            while (res.next()) {
+                String[] struct = new String[2];
+                struct[0] = res.getString(1);
+                struct[1] = new Integer(res.getInt(2)).toString();
+                names.add(struct);
+            }
+            return names;
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(res, state, con);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<User> getAll() {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        ResultSet res = null;
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            state = con.prepareStatement("select uId,uName,state,flag from user");
+            res = state.executeQuery();
+
+            while (res.next()) {
+                users.add(new User(res.getInt(1), res.getString(2), res.getBoolean(3), res.getBoolean(4)));
+            }
+            return users;
+        } catch (SQLException e) {
+            System.out.println(e.getSQLState() + e.getSQLState());
+            e.printStackTrace();
+            System.exit(-1);
+        } finally {
+            Factory.closeAll(res, state, con);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean set(int id) {
+        Connection con = Factory.getCon();
+        PreparedStatement state = null;
+        try {
+            state = con.prepareStatement("UPDATE USER \n" +
+                    "\tSET flag = flag^1 \n" +
+                    "WHERE\n" +
+                    "\tuid =?");
+            state.setInt(1, id);
 
             return (state.executeUpdate() >= 1);
 

@@ -25,7 +25,8 @@ public class MyTime {
             return format.format(cal.getTime());
         } else if (calNow.get(Calendar.YEAR) == cal.get(Calendar.YEAR) && calNow.get(Calendar.MONTH) == cal.get(Calendar.MONTH)) {
             //同一月，28天2419200   这个月几号 几点几分  几天前
-            format.applyPattern("本月dd号 HH点mm分");
+            long temp = timeDiff/6000*60*24;
+            format.applyPattern("本月dd号 HH点mm分  "+temp+"天前");
             return format.format(cal.getTime());
         } else if (calNow.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) {
             //同一年，一年31622400秒  今年 几月几号几点

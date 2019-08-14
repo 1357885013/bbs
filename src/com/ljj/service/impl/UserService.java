@@ -5,6 +5,7 @@ import com.ljj.entity.User;
 import com.ljj.service.IUserService;
 import com.ljj.util.Scan;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserService implements IUserService {
@@ -62,8 +63,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean ban() {
-        return false;
+    public void ban() {
+        System.out.println("输入用户的id");
+        if (scan.hasNextInt()) {
+            if (dao.ban(scan.nextInt())) {
+                System.out.println("成功");
+            } else {
+                System.out.println("失败");
+            }
+        }
     }
 
     @Override
@@ -72,12 +80,53 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean delete() {
-        return false;
+    public void delete() {
+        System.out.println("输入要删除的用户的id");
+        if (scan.hasNextInt()) {
+            if (dao.delete(scan.nextInt())) {
+                System.out.println("删除成功");
+            } else {
+                System.out.println("删除失败");
+            }
+        }
     }
 
     @Override
     public boolean update() {
         return false;
+    }
+
+    @Override
+    public void getActivate() {
+        ArrayList<String[]> res = dao.getActivate();
+        System.out.println("活跃用户------------------");
+        for (int i = 0; i < res.size(); i++) {
+            String[] temp = res.get(i);
+            System.out.println(temp[0] + "\t\t\t" + temp[1]);
+        }
+        System.out.println("--------------------------");
+    }
+
+    @Override
+    public void list() {
+        ArrayList<User> res = dao.getAll();
+        System.out.println("所有用户------------------");
+        for (int i = 0; i < res.size(); i++) {
+            User temp = res.get(i);
+            System.out.println(temp.getId() + "\t\t\t" + temp.getName() + "\t\t\t" + (temp.state ? "被禁用" : "未禁用") + "\t\t\t" + (temp.flag ? "管理员" : "普通用户"));
+        }
+        System.out.println("--------------------------");
+    }
+
+    @Override
+    public void set() {
+        System.out.println("输入用户的id");
+        if (scan.hasNextInt()) {
+            if (dao.set(scan.nextInt())) {
+                System.out.println("成功");
+            } else {
+                System.out.println("失败");
+            }
+        }
     }
 }

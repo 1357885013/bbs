@@ -70,7 +70,7 @@ public class PostService implements IPostService {
     @Override
     public void create(int userId, int blockId) {
         String temp = scan.nextLine();
-        if (!temp.equals(""))
+        if (!temp.trim().equals(""))
             post.setTitle(temp);
         else {
             System.out.println("please input a title:");
@@ -98,13 +98,21 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void delete() {
+    public void delete(int userId, boolean state) {
         System.out.println("请输入帖子id:");
-        if (scan.hasNextInt())
-            if (dao.delete((scan.nextInt())))
+        if (scan.hasNextInt()) {
+            int id = scan.nextInt();
+            if (!state) {
+                if (userId != dao.getUserId(id)) {
+                    System.out.println("失败，权限不足，你只能删除自己的内容");
+                    return;
+                }
+            }
+            if (dao.delete((id)))
                 System.out.println(">>>>>>>>>删除成功<<<<<<<<");
             else
                 System.out.println(">>>>>>>>>删除失败，不存在次id或其它原因<<<<<<<<");
+        }
     }
 
 

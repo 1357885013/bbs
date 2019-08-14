@@ -44,9 +44,15 @@ public class BlockService implements IBlockService {
 
     @Override
     public void create() {
-        System.out.println("please input your block name:");
-        if (scan.hasNext())
-            block.setName(scan.next());
+        String temp = scan.nextLine();
+        if (!temp.trim().equals(""))
+            block.setName(temp);
+        else {
+            System.out.println("请输入版块名称:");
+            if (scan.hasNextLine())
+                block.setName(scan.nextLine());
+        }
+
         try {
             if (dao.create(block)) {
                 System.out.println(">>>>>>>>>创建成功<<<<<<<<");
